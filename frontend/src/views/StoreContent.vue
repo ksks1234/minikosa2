@@ -9,7 +9,7 @@
               <div class="top_image_line">
                 <span
                   class="image_present"
-                  :style="`background-image: url(${store.storePhoto})`"
+                  :style="`background-image: url(http://localhost:8090/${store.storePhoto})`"
                 ></span>
                 <span class="frame_g"></span>
   
@@ -44,9 +44,11 @@
                         alt="filled-star"
                         class="icon_star"
                       />
-                      <span class="evaluation_link">평점 : {{ store.ratingAvg }}</span>
+                      <span class="evaluation_link">평점 : </span>
+                      <span class="evaluation_link">{{ store.ratingAvg }}</span>
                       <span class="bar"></span>
-                      <span class="evaluation_link">리뷰 : {{ store.countReview }}</span>
+                      <span class="evaluation_link">리뷰 : </span>
+                      <a href="#none" class="evalution_link">{{ store.countReview }}</a>
                     </div>
                   </div>
                 </div>
@@ -236,8 +238,9 @@
             <!-- Reviews List -->
             <div class="review_box">
               <strong class="screen_out">후기 리스트</strong>
+              <template  v-for="review in reviews" :key="review.reviewId">
               <ul class="review_list" v-if="reviews.length">
-                <li v-for="review in reviews" :key="review.reviewId">
+                <li>
                   <div class="unit_info">
                     <em class="screen_out">작성자 : </em>
                     <a href="#" class="link_user">
@@ -256,14 +259,17 @@
                   <div class="photo_group">
                     <ul class="list_photo">
                       <!-- If there are photos, display them -->
-                      <li v-for="photo in review.photos" :key="photo.photoId">
+                      <!-- <li v-for="photo in review.photos" :key="photo.photoId">
                         <img :src="photo.url" alt="Review Photo" class="img_thumb" />
-                      </li>
+                      </li> -->
                     </ul>
                   </div>
   
                   <div class="comment_info">
-                    <p class="text_comment">{{ review.reviewText }}</p>
+                    <p class="text_comment">
+                      <span>{{ review.reviewText }}</span>
+                      
+                    </p>
                   </div>
   
                   <div class="wrap_util">
@@ -278,8 +284,8 @@
                     </button>
   
                     <!-- User Modify/Delete Buttons -->
+                     <template v-if="isCurrentUser(review.memberId)">
                     <button
-                      v-if="isCurrentUser(review.memberId)"
                       type="button"
                       class="comment_user_button"
                       @click="openEditModal(review)"
@@ -287,14 +293,15 @@
                       수정
                     </button>
                     <button
-                      v-if="isCurrentUser(review.memberId)"
                       type="button"
                       class="comment_user_button"
                       @click="deleteReview(review.reviewId)"
                     >
                       삭제
                     </button>
+                  </template>
                   </div>
+                  </li>
   
                   <!-- Owner's Reply -->
                   <li v-if="review.replyId" class="reply_comment_list">
@@ -310,7 +317,9 @@
                     <div class="unit_info_admin">
                       <em class="screen_out">사장 : </em>
                       <div class="comment_info_reply">
-                        <p class="text_comment">{{ review.replyText }}</p>
+                        <p class="text_comment">
+                          <span>{{ review.replyText }}</span>
+                        </p>
                       </div>
                       <div class="wrap_util">
                         <!-- Owner Edit/Delete Reply Buttons -->
@@ -333,9 +342,12 @@
                       </div>
                     </div>
                   </li>
-                </li>
-              </ul>
-              <p v-else>작성된 후기가 없습니다.</p>
+                  <!-- <p v-else>작성된 후기가 없습니다.</p> -->
+                </ul>
+                </template>
+              
+        
+
             </div>
           </div>
   
@@ -389,6 +401,7 @@
   import { useAuthStore } from '../stores/auth';
   import { useAdminStore } from '../stores/admin';
   import api from '../axios'; // 중앙집중식 Axios 인스턴스 임포트
+  import dayjs from "dayjs";
   
   export default {
     name: 'StoreContent',
@@ -461,11 +474,9 @@
   
       // Format Time
       const formatTime = (time) => {
-        const date = new Date(time);
-        const hours = date.getHours().toString().padStart(2, '0');
-        const minutes = date.getMinutes().toString().padStart(2, '0');
-        return `${hours}:${minutes}`;
+        return time.slice(0, 5);
       };
+
   
       // Format Price
       const formatPrice = (price) => {
@@ -483,6 +494,9 @@
   
       // Check if current user is the review author
       const isCurrentUser = (memberId) => {
+        console.log("유저 : " + user.value);
+        console.log("작성자 : " +user.value.memberId);
+        console.log("isCurrentUser의 id : " + memberId);
         return user.value && user.value.memberId === memberId;
       };
   
@@ -586,9 +600,11 @@
   
       // Open Edit Review Modal
       const openEditModal = (review) => {
+        if (confirm('댓글을 수정하시겠습니까?')) {
         currentReview.value = review;
         editReviewText.value = review.reviewText;
         showEditModal.value = true;
+        }
       };
   
       // Close Edit Review Modal

@@ -232,7 +232,7 @@
     </html>
 </template>
 <script>
-// import '../assets/js/home/custom.js';
+ import '../assets/js/home/custom.js';
 import '../assets/js/home/jquery-3.4.1.min.js';
 </script>
 <style>

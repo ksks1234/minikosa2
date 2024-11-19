@@ -14,7 +14,7 @@ public interface HomeRepository extends JpaRepository<Store, Integer> {
             "   s.storeName, " +
             "   s.storePhoto, " +
             "   s.storeDescription, " +
-            "   round(avg(r.rating),1) as ratingAvg, " +
+            "   COALESCE(round(avg(r.rating),1),0) as ratingAvg, " +
             "   c.categoryName ) " +
             "from " +
             "   Store s " +

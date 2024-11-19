@@ -25,7 +25,7 @@ public interface StoreRepository extends JpaRepository<Store, Integer> {
             "s.contactNumber, " +
             "s.storePhoto, " +
             "s.owner.memberId, " +
-            "COALESCE(AVG(r.rating), 0), " +
+            "COALESCE(ROUND(AVG(r.rating), 1), 0), " +
             "COUNT(r)) " +
             "FROM Store s LEFT JOIN s.reviews r " +
             "WHERE s.storeId = :storeId " +
