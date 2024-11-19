@@ -17,9 +17,7 @@ public class MemberEditProfileServiceImpl {
 
     @Autowired
     private final MemberRepository memberRepository;
-    private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
-    private final StoreRepository storeRepository;
 
     public MemberEditProfileServiceImpl(MemberRepository memberRepository,
                                         RoleRepository roleRepository,
@@ -27,9 +25,7 @@ public class MemberEditProfileServiceImpl {
                                         StoreRepository storeRepository) {
 
         this.memberRepository = memberRepository;
-        this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
-        this.storeRepository = storeRepository;
     }
 
     public Member update(Integer memberId, MemberEditProfileDTO dto) {

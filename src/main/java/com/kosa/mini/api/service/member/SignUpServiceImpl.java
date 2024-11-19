@@ -52,7 +52,7 @@ public class SignUpServiceImpl implements SignUpService {
             member.setPassword(passwordEncoder.encode(dto.getPassword()));
             member.setPhoneNumber(dto.getPhone_number());
             member.setRole(userRole);
-//            member.setCreatedAt(LocalDateTime.now());
+            member.setCreatedAt(LocalDateTime.now());
 
             memberRepository.save(member);
             log.info("회원가입 성공: " + member.toString());

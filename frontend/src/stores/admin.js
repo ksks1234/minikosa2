@@ -23,6 +23,12 @@ export const useAdminStore = defineStore('admin', {
     currentStore: null, // 현재 관리 중인 가게 정보
   }),
   actions: {
+    setSearch(type, keyword) {
+      this.searchType = type
+      this.searchKeyword = keyword
+      this.currentPage = 1 // 검색 시 페이지를 1로 초기화
+      this.fetchSuggestions(this.currentPage, this.pageSize, this.searchType, this.searchKeyword)
+    },
     // 제안 목록 가져오기
     async fetchSuggestions(page = 1, size = 5, type = 'title', keyword = '') {
       this.isLoading = true
