@@ -49,6 +49,7 @@ export const useAuthStore = defineStore('auth', {
         this.user = null
         localStorage.removeItem('accessToken')
         localStorage.removeItem('user')
+        alert("로그아웃 되었습니다.");
         router.push('/login')
       }
     },
