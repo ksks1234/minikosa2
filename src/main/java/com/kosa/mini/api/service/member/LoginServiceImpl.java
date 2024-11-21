@@ -6,10 +6,12 @@ import com.kosa.mini.api.dto.member.TokenResponseDTO;
 import com.kosa.mini.api.dto.member.LoginDTO;
 import com.kosa.mini.api.entity.Member;
 import com.kosa.mini.api.entity.RefreshTokenRedis;
+import com.kosa.mini.api.entity.Store;
 import com.kosa.mini.api.exception.LoginException;
 import com.kosa.mini.api.repository.MemberRepository;
 import com.kosa.mini.api.repository.RefreshTokenRepository;
 import com.kosa.mini.api.repository.RoleRepository;
+import com.kosa.mini.api.repository.StoreRepository;
 import com.kosa.mini.api.security.JwtTokenProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,18 +34,20 @@ public class LoginServiceImpl implements LoginService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final MemberRepository memberRepository;
     private final RoleRepository roleRepository;
+    private final StoreRepository storeRepository;
 
     @Autowired
     public LoginServiceImpl(AuthenticationManager authenticationManager,
                             JwtTokenProvider tokenProvider,
                             RefreshTokenRepository refreshTokenRepository,
                             MemberRepository memberRepository,
-                            RoleRepository roleRepository) {
+                            RoleRepository roleRepository, StoreRepository storeRepository) {
         this.authenticationManager = authenticationManager;
         this.tokenProvider = tokenProvider;
         this.refreshTokenRepository = refreshTokenRepository;
         this.memberRepository = memberRepository;
         this.roleRepository = roleRepository;
+        this.storeRepository = storeRepository;
     }
 
     @Override

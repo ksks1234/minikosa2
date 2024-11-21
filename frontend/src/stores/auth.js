@@ -42,6 +42,7 @@ export const useAuthStore = defineStore('auth', {
     async logout() {
       try {
         await api.post('/logout')
+        alert("로그아웃 되었습니다.");
       } catch (error) {
         console.error('로그아웃 중 오류가 발생했습니다.', error)
       } finally {
@@ -49,7 +50,6 @@ export const useAuthStore = defineStore('auth', {
         this.user = null
         localStorage.removeItem('accessToken')
         localStorage.removeItem('user')
-        alert("로그아웃 되었습니다.");
         router.push('/login')
       }
     },
