@@ -5,6 +5,9 @@ import vue from '@vitejs/plugin-vue'
 
 export default defineConfig({
   plugins: [vue()],
+    build: {
+      outDir: "../../minikosa2/src/main/resources/static",
+    },
   server: {
     proxy: {
       '/api/v1': {
